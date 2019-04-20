@@ -61,6 +61,7 @@ function git_branch {
 
 PS1="\[\e[34;1m\]\u\[\e[37;1m\] at \[\e[31;1m\]\H\[\e[37;1m\] : \[$COLOR_CYAN\]\w \[$COLOR_RESET\]\n"
 PS1+="\[\$(git_color)\]\$(git_branch)⚡️ \[$COLOR_RESET\]\[\e[0m\]"
+
 export PS1
 
 source /Users/rob/.bashrc
@@ -322,7 +323,8 @@ httpHeaders () { /usr/bin/curl -I -L $@ ; }             # httpHeaders:      Grab
 
 upload() {
     if [ $# -eq 0 ]; then echo -e "No arguments specified. Usage:\necho upload /path/to/file.md"; return 1; fi
-    curl --progress-bar --upload-file "$1" https://upload.express/upload/$(basename $1) | tee /dev/null;
+    curl --progress-bar --upload-file "$1" https://upload.express/upload/$(basename $1) | tee >(pbcopy);
+    printf "\nURL copied to clipboard\n"
 }
 
 alias upload=upload
