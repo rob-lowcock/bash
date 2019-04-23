@@ -59,10 +59,20 @@ function git_branch {
   fi
 }
 
-PS1="\[\e[34;1m\]\u\[\e[37;1m\] at \[\e[31;1m\]\H\[\e[37;1m\] : \[$COLOR_CYAN\]\w \[$COLOR_RESET\]\n"
-PS1+="\[\$(git_color)\]\$(git_branch)⚡️ \[$COLOR_RESET\]\[\e[0m\]"
+function __prompt_command {
+  local EXIT="$?"
+  PS1="\[\e[34;1m\]\u\[\e[37;1m\] at \[\e[31;1m\]\H\[\e[37;1m\] : \[$COLOR_CYAN\]\w \[$COLOR_RESET\]\n"
+  PS1+="\[\$(git_color)\]\$(git_branch)"
+  if [ $EXIT != 0 ]; then
+    PS1+="❌"
+  else
+    PS1+="⚡️"
+  fi
 
-export PS1
+  PS1+=" \[$COLOR_RESET\]\[\e[0m\]"
+}
+
+PROMPT_COMMAND=__prompt_command
 
 source /Users/rob/.bashrc
 
